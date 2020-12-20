@@ -1,4 +1,6 @@
 import smartsheet
+import time
+import json
 
 # Initialize client
 access_token = 'qkxytqvgpu7qu0ujitlpwc32j1'
@@ -21,3 +23,12 @@ print(faves)
 ss = response.to_json()
 print(type(ss))
 print(ss)
+gs = json.dumps(ss)
+print(gs[1].objectId)
+print("now")
+"""
+for x in range(5):
+  print(ss[1][1])
+  time.sleep(1)
+
+"""

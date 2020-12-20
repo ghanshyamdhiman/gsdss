@@ -9,3 +9,4 @@ smartsheet_client.errors_as_exceptions(True)
 response = smartsheet_client.Favorites.list_favorites(include_all=True)
 faves = response.data
 print(type(faves))
+print(faves)

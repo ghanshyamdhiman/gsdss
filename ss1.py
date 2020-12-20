@@ -9,10 +9,11 @@ smartsheet_client = smartsheet.Smartsheet(access_token)
 # Make sure we don't miss any errors
 smartsheet_client.errors_as_exceptions(True)
 
-"""
-response = smartsheet_client.Sheets.list_sheets(include="attachments,source", include_all=True)
+response = smartsheet_client.Sheets.list_sheets(include_all=True)
 sheets = response.data
-"""
+time.sleep(2)
+print(type(sheets))
+time.sleep(3)
 
 response = smartsheet_client.Favorites.list_favorites(include_all=True)
 print(type(response))
@@ -36,6 +37,10 @@ for i in enumerate(gs.items()):
       print(type(y))
       time.sleep(2)
       print(y)
+      #c = json.dumps(y)
+      for a in y: 
+        print(type(a))  
+        print(a[0][0])
     time.sleep(1)
 
 print("now")

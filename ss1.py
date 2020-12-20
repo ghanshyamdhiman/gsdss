@@ -23,8 +23,21 @@ print(faves)
 ss = response.to_json()
 print(type(ss))
 print(ss)
-gs = json.dumps(ss)
-print(gs[1].objectId)
+gs = json.loads(ss)
+print(type(gs))
+print(gs)
+
+for i in enumerate(gs.items()): 
+  print(type(i))
+  for x in i[1]:
+    print(type(x))
+    print(x)
+    for y in x:
+      print(type(y))
+      time.sleep(2)
+      print(y)
+    time.sleep(1)
+
 print("now")
 """
 for x in range(5):

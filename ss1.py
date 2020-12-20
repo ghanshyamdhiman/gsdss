@@ -13,6 +13,7 @@ sheets = response.data
 """
 
 response = smartsheet_client.Favorites.list_favorites(include_all=True)
+print(type(response))
 faves = response.data
 print(type(faves))
 print(faves)

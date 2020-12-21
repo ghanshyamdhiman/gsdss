@@ -26,10 +26,10 @@ for x in range(5):
   if(sname == "Ajay Malik"):
     print("\t hello")
     id = sheets[x].id
-    sht = sheetssheets[x]
-    rs = sht.total_row_count
+    sht = sheets[x]
+    rs = sht.get_rows()
     time.sleep(2)
-    print(type(rs))
+    #print(type(rs))
     print(rs)
     r = rs.rows
     print(type(r))

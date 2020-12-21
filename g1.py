@@ -11,44 +11,37 @@ smartsheet_client.errors_as_exceptions(True)
 
 response = smartsheet_client.Sheets.list_sheets(include="attachments,source", include_all=True)
 sheets = response.data
-time.sleep(2)
+print('Prog Starts')
 print(type(sheets))
-
 time.sleep(2)
-print(sheets)
 print("OK")
 
-for x in range(5):
-  import smartsheet
-import time
-import json
-
-# Initialize client
-access_token = 'qkxytqvgpu7qu0ujitlpwc32j1'
-smartsheet_client = smartsheet.Smartsheet(access_token)
-
-# Make sure we don't miss any errors
-smartsheet_client.errors_as_exceptions(True)
-
-response = smartsheet_client.Sheets.list_sheets(include="attachments,source", include_all=True)
-sheets = response.data
-time.sleep(2)
-print(type(sheets))
-
-time.sleep(2)
-print(sheets)
-print("OK")
-
-for x in range(5):
+for x in range(1):
   print(sheets[x].name)
   print(sheets[x].id)
-  print(sheets[x].get_rows())
-  time.sleep(2)
-    #print_data(sht,rid)
+  s_id = sheets[x].id
+  sht = sheets[x]
+  cols = sht.get_columns(s_id)
+  cols_json = cols.to_json()
+  print(type(cols_json))
+  print(cols_json)
   time.sleep(3)
+  cols_data = json.loads(cols_json)
+  print(type(cols_data))
+  print(cols_data)
+  time.sleep(3)
+  #print(cols_json['id]'])
+  cols_count = cols.total_count
+  for d in cols_data:
+    print(d)
+    time.sleep(2)
 
-def print_data(sheet, row_id):
-  row_data = sheet.get_row(row_id)
-  print(type(row_data))
+  for d in cols_data.values():
+    print(d)
+    time.sleep(2)
 
-print("now")
+  for x, y in cols_data.items():
+    print(x, y)
+    time.sleep(2)
+
+  print("now")

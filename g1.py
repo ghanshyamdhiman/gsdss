@@ -34,14 +34,19 @@ for x in range(1):
   cols_count = cols.total_count
   for d in cols_data:
     print(d)
-    time.sleep(2)
-
+    
   for d in cols_data.values():
+    print(type(d))
     print(d)
+    for i in d:
+      print(type(i))
+      print(i)
+      for x, y in i.items():
+        print(x, y)
+        time.sleep(2)
+
     time.sleep(2)
 
-  for x, y in cols_data.items():
-    print(x, y)
-    time.sleep(2)
+  
 
   print("now")

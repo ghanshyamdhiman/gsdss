@@ -4,49 +4,61 @@ import json
 
 # Initialize client
 access_token = 'qkxytqvgpu7qu0ujitlpwc32j1'
-smartsheet_client = smartsheet.Smartsheet(access_token)
+ss_client = smartsheet.Smartsheet(access_token)
 
 # Make sure we don't miss any errors
-smartsheet_client.errors_as_exceptions(True)
+ss_client.errors_as_exceptions(True)
 
-response = smartsheet_client.Sheets.list_sheets(include_all=True)
-sheets = response.data
-time.sleep(2)
-print(type(sheets))
-time.sleep(3)
+print("WELCOME")
 
-response = smartsheet_client.Favorites.list_favorites(include_all=True)
-print(type(response))
-print("OK")
-faves = response.data
-print(type(faves))
-print(faves)
-ss = response.to_json()
-print(type(ss))
-print(ss)
-gs = json.loads(ss)
-print(type(gs))
-print(gs)
+search_string = "ABHA DAILY REPOT"
 
-for i in enumerate(gs.items()): 
-  print(type(i))
-  for x in i[1]:
-    print(type(x))
-    print(x)
-    for y in x:
-      print(type(y))
-      time.sleep(2)
-      print(y)
-      #c = json.dumps(y)
-      for a in y: 
-        print(type(a))  
-        print(a[0][0])
-    time.sleep(1)
+def print_sheet_name(ss_client, ss_name):
+  search_results = ss_client.Search.search(ss_name).results
+  sheet_id = next(result.object_id for result in search_results if result.object_type == 'sheet')
+  the_sheet = ss_client.Sheets.get_sheet(sheet_id)
+  print("Sheet Name : ", the_sheet.name)
+  print("Sheet ID : ", the_sheet.id)
+  return the_sheet
 
-print("now")
-"""
-for x in range(5):
-  print(ss[1][1])
-  time.sleep(1)
+the_sheet = print_sheet_name(ss_client,search_string)
+sheet_id = the_sheet.id
 
-"""
+the_rows = the_sheet.rows
+print("ROWS TYPE : ", type(the_rows))
+
+the_row_count = the_sheet.total_row_count
+print("ROWS COUNT : ", the_row_count)
+
+cols = the_sheet.get_columns(sheet_id)
+
+cols_count = cols.total_count
+print("No of Cols :", cols_count)
+
+for n in range(cols_count)
+  print(cols.title)
+  if(n==3):
+    break
+
+col_title ="WORK DONE"
+
+col = the_sheet.get_column_by_title(col_title)
+
+print("COL NAME : ", col.title)
+print("COL ID : ", col.id)
+
+for n in range(the_row_count):
+  print("ROW ID : ", the_rows[n].id)
+  the_row = the_rows[n]
+  the_col = the_row.get_column(col.id)
+  print(the_col.value)
+  print(the_rows[n])
+  if(n==2):
+    break
+  time.sleep(2)
+
+
+
+
+        
+print("THE END")

@@ -1,7 +1,5 @@
 import smartsheet
 import time
-import json
-
 # Initialize client
 access_token = 'qkxytqvgpu7qu0ujitlpwc32j1'
 ss_client = smartsheet.Smartsheet(access_token)
@@ -35,30 +33,38 @@ cols = the_sheet.get_columns(sheet_id)
 cols_count = cols.total_count
 print("No of Cols :", cols_count)
 
-for n in range(cols_count)
-  print(cols.title)
-  if(n==3):
+
+
+for i in range(cols_count):
+  print(cols.data[i].title)
+  if(i==3):
     break
 
-col_title ="WORK DONE"
+wks_col_title ="WORK DONE"
 
-col = the_sheet.get_column_by_title(col_title)
+dt_col_title ="DATE"
 
-print("COL NAME : ", col.title)
-print("COL ID : ", col.id)
+wks_col = the_sheet.get_column_by_title(wks_col_title)
+dt_col = the_sheet.get_column_by_title(dt_col_title)
+
+print("WKS COL NAME : ", wks_col.title)
+print("WKS COL ID : ", wks_col.id)
+
+print("DT COL NAME : ", wks_col.title)
+print("DT COL ID : ", dt_col.id)
 
 for n in range(the_row_count):
   print("ROW ID : ", the_rows[n].id)
   the_row = the_rows[n]
-  the_col = the_row.get_column(col.id)
-  print(the_col.value)
-  print(the_rows[n])
+  the_wks_col = the_row.get_column(wks_col.id)
+  the_dt_col = the_row.get_column(dt_col.id)
+  if(the_dt_col.value == "2013-09-19"):
+    print(the_wks_col.value)
+    print(the_dt_col.value)
+    print(the_rows[n])
   if(n==2):
     break
   time.sleep(2)
 
-
-
-
-        
+     
 print("THE END")

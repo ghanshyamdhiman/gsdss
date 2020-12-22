@@ -1,37 +1,21 @@
-from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-import time
-import sys
-
-# Replace below path with the absolute path
-# to chromedriver in your computer
-driver = webdriver.Chrome('./chromedriver')
-
-driver.get("https://web.whatsapp.com/")
-wait = WebDriverWait(driver, 600)
-
-# Replace 'Friend's Name' with the name of your friend 
-# or the name of a group 
-target = '"Akshay Wd"'
-
-# Replace the below string with your own message
-string = sys.argv[1]
-
-x_arg = '//span[contains(@title,' + target + ')]'
-group_title = wait.until(EC.presence_of_element_located((
-	By.XPATH, x_arg)))
-group_title.click()
+import os
+from twilio.rest import Client
 
 
-message = driver.find_elements_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')[0]
+# Your Account Sid and Auth Token from twilio.com/console
+# and set the environment variables. See http://twil.io/secure
+#TWILIO_ACCOUNT_SID = 'ACa64794fbb24c7f3d3c082a9c41b4ff25'
+TWILIO_ACCOUNT_SID= 'SK1a838acbd1c9dd738375c6a653dd7640'
+#TWILIO_AUTH_TOKEN= 'ed7c8a864d30310dfa4b4973dceff57c'
+TWILIO_AUTH_TOKEN='nRSAMX1X2qAHRfF6dZ5VyRL5LAhhPTRs'
+account_sid = os.environ[TWILIO_ACCOUNT_SID]
+auth_token = os.environ[TWILIO_AUTH_TOKEN]
+client = Client(account_sid, auth_token)
 
+message = client.messages.create(
+                              body='Hello there!',
+                              from_='whatsapp:+917028775879',
+                              to='whatsapp:+91950357231'
+                          )
 
-message.send_keys(string)
-
-sendbutton = driver.find_elements_by_xpath('//*[@id="main"]/footer/div[1]/div[3]/button')[0]
-sendbutton.click()
-
-driver.close()
+print(message.sid)

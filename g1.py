@@ -1,54 +1,71 @@
 import smartsheet
-import time
-import json
-import os
-from twilio.rest import Client
+import requests
 
 # Initialize client
 access_token = 'qkxytqvgpu7qu0ujitlpwc32j1'
-smartsheet_client = smartsheet.Smartsheet(access_token)
+ss_client = smartsheet.Smartsheet(access_token)
 
 # Make sure we don't miss any errors
-smartsheet_client.errors_as_exceptions(True)
+ss_client.errors_as_exceptions(True)
 
-response = smartsheet_client.Sheets.list_sheets(include="attachments,source", include_all=True)
-sheets = response.data
-print('Prog Starts')
-print(type(sheets))
-time.sleep(2)
-print("OK")
+print("WELCOME")
 
-for x in range(1):
-  print(sheets[x].name)
-  print(sheets[x].id)
-  s_id = sheets[x].id
-  sht = sheets[x]
-  cols = sht.get_columns(s_id)
-  cols_json = cols.to_json()
-  print(type(cols_json))
-  print(cols_json)
-  time.sleep(3)
-  cols_data = json.loads(cols_json)
-  print(type(cols_data))
-  print(cols_data)
-  time.sleep(3)
-  #print(cols_json['id]'])
-  cols_count = cols.total_count
-  for d in cols_data:
-    print(d)
-    
-  for d in cols_data.values():
-    print(type(d))
-    print(d)
-    for i in d:
-      print(type(i))
-      print(i)
-      for x, y in i.items():
-        print(x, y)
-        time.sleep(2)
+sheet_name = "ABHA DAILY REPOT"
 
-    time.sleep(2)
+def get_the_sheet(ss_client, ss_name):
+  search_results = ss_client.Search.search(ss_name).results
+  sheet_id = next(result.object_id for result in search_results if result.object_type == 'sheet')
+  sheet = ss_client.Sheets.get_sheet(sheet_id)
+  return sheet
 
-  
+the_sheet = get_the_sheet(ss_client, sheet_name)
 
-  print("now")
+def get_msg_data(sheet):
+  msg_data = {}
+  the_rows = sheet.rows
+  the_row_count = sheet.total_row_count
+
+  wks_col_title ="WORK DONE"
+  dt_col_title ="DATE"
+
+  wks_col = sheet.get_column_by_title(wks_col_title)
+  dt_col = sheet.get_column_by_title(dt_col_title)
+
+  for n in range(the_row_count):
+    the_row = the_rows[n]
+    the_wks_col = the_row.get_column(wks_col.id)
+    the_dt_col = the_row.get_column(dt_col.id)
+    if(the_dt_col.value == "2013-09-19"):
+      msg_data['msg']=the_wks_col.value
+      msg_data['date']=the_dt_col.value
+      return msg_data
+
+the_no = '917028775879'
+the_msg = get_msg_data(the_sheet)
+only_msg = the_msg['msg']
+print(the_msg)
+
+def send_whatsapp_msg(mobile_no, whatsapp_msg):
+  headers = {
+    'Cache-Control': 'no-cache',
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'apikey': '8jto5uzk3utwsrlhjkokftlrrkjtkkfb',
+    'cache-control': 'no-cache',
+  }
+
+  data = {
+  'channel': 'whatsapp',
+  'source': '917834811114',
+  'destination': mobile_no,
+  'message': '{"type":"text","text":"'+whatsapp_msg+'"}',
+  'src.name': 'GSDJDDLJ'
+  }
+
+  response = requests.post('https://api.gupshup.io/sm/api/v1/msg', headers=headers, data=data)
+
+  print(response)
+  print("SENT")
+
+send_whatsapp_msg(the_no, only_msg)
+
+print("THE END")

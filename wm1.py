@@ -1,21 +1,28 @@
-import os
-from twilio.rest import Client
+import requests
 
+the_no = '917028775879'
+the_msg ='You have earned [55] points at [RAN]'
 
-# Your Account Sid and Auth Token from twilio.com/console
-# and set the environment variables. See http://twil.io/secure
-#TWILIO_ACCOUNT_SID = 'ACa64794fbb24c7f3d3c082a9c41b4ff25'
-TWILIO_ACCOUNT_SID= 'SK1a838acbd1c9dd738375c6a653dd7640'
-#TWILIO_AUTH_TOKEN= 'ed7c8a864d30310dfa4b4973dceff57c'
-TWILIO_AUTH_TOKEN='nRSAMX1X2qAHRfF6dZ5VyRL5LAhhPTRs'
-account_sid = os.environ[TWILIO_ACCOUNT_SID]
-auth_token = os.environ[TWILIO_AUTH_TOKEN]
-client = Client(account_sid, auth_token)
+def send_whatsapp_msg(mobile_no, whatsapp_msg):
+  headers = {
+    'Cache-Control': 'no-cache',
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'apikey': '8jto5uzk3utwsrlhjkokftlrrkjtkkfb',
+    'cache-control': 'no-cache',
+  }
 
-message = client.messages.create(
-                              body='Hello there!',
-                              from_='whatsapp:+917028775879',
-                              to='whatsapp:+91950357231'
-                          )
+  data = {
+  'channel': 'whatsapp',
+  'source': '917834811114',
+  'destination': mobile_no,
+  'message': '{"type":"text","text":"'+whatsapp_msg+'"}',
+  'src.name': 'GSDJDDLJ'
+  }
 
-print(message.sid)
+  response = requests.post('https://api.gupshup.io/sm/api/v1/msg', headers=headers, data=data)
+
+  print(response)
+  print("SENT")
+
+send_whatsapp_msg(the_no, the_msg)
+
